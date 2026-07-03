@@ -11,6 +11,14 @@ app.get("/",(req,res)=>{
     res.send("Hello from quick-agents-deploy");
 });
 
+app.get("/health", (req,res)=>{
+    res.json({
+        status:"ok",
+        uptime:process.uptime()
+    })
+})
+
+
 app.listen(PORT,() => {
     console.log(`Server is running at https://localhost:${PORT}`);
 });
