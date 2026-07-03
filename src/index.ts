@@ -7,13 +7,13 @@ const PORT = 3000;
 
 //middleware
 
-app.use(express.json())
 
 app.use((req,res,next)=> {
     console.log(`${req.method} ${req.path}`);
     next();
 })
 
+app.use(express.json())
 //handlers
 
 app.get("/",(req,res)=>{
