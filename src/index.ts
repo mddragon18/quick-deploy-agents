@@ -1,8 +1,17 @@
 import express from "express";
+import { time } from "node:console";
 
 const app = express();
 
 const PORT = 3000;
+
+//middleware
+
+app.use((req,res,next)=> {
+    console.log(`${req.method} ${req.path}`);
+    next();
+})
+
 
 app.get("/",(req,res)=>{
     console.log(req.method);
