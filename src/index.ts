@@ -12,6 +12,7 @@ app.use((req,res,next)=> {
     next();
 })
 
+//handlers
 
 app.get("/",(req,res)=>{
     console.log(req.method);
@@ -27,6 +28,13 @@ app.get("/health", (req,res)=>{
     })
 })
 
+app.post("/agents",(req,res)=>{
+    console.log(req.body);
+
+    res.json({
+        "message":"Agent created"
+    })
+})
 
 app.listen(PORT,() => {
     console.log(`Server is running at https://localhost:${PORT}`);
