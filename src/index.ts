@@ -5,6 +5,9 @@ const app = express();
 const PORT = 3000;
 
 app.get("/",(req,res)=>{
+    console.log(req.method);
+    console.log(req.path);
+    console.log(req.headers);
     res.send("Hello from quick-agents-deploy");
 });
 
