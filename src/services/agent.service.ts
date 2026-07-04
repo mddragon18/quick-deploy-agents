@@ -34,11 +34,9 @@ export function getAgentById(id : string): Agent {
 }
 
 export function updateAgent(id:string, updateAgentDto : UpdateAgentDto) : Agent {
-    const agent: Agent = {
-        ...getAgentById(id),    //checks if agent is present already in getAgentById()
-        ...updateAgentDto
-    }
-
+    const agent : Agent = getAgentById(id);
+    Object.assign(agent,updateAgentDto);
+    agent.updatedAt = new Date();
     return agent
 }
 
