@@ -1,20 +1,18 @@
 import { Agent, CreateAgentDto } from "../types/agent";
 
 const agents : Agent[] = [];
-let i="1";
+let nextId=1;
 export function createAgent(createAgentDto : CreateAgentDto) : Agent {
-    let agent : Agent;
-    agent = {
-        id : i,
+    const date = new Date();
+    const agent : Agent = {
+        id : nextId.toString(),
         name : createAgentDto.name,
-        description : "",
-        createdAt : new Date(),
-        updatedAt : new Date()
+        description : createAgentDto.description ?? "",
+        createdAt : date,
+        updatedAt : date
     }
 
-    if(createAgentDto.description) {
-        agent.description = createAgentDto.description;
-    }
-
+    agents.push(agent);
+    nextId++;
     return agent;
 }
