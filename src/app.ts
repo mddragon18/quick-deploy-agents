@@ -1,8 +1,9 @@
 import express from "express";
+import healthRouter from "./routes/health.routes";
 
 const app = express();
 
-const PORT = 3000;
+
 
 //middleware
 
@@ -19,12 +20,7 @@ app.get("/",(req,res)=>{
     res.send("Hello from quick-agents-deploy");
 });
 
-app.get("/health", (req,res)=>{
-    res.json({
-        status:"ok",
-        uptime:process.uptime()
-    })
-})
+app.use("/health",healthRouter);
 
 app.post("/agents",(req,res)=>{
     console.log(req.body);
