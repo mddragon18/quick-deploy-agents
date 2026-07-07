@@ -1,4 +1,5 @@
 import { NextFunction, Request, Response } from "express";
+import { AppError } from "../errors/AppError";
 
 export function errorHandler(
     err:Error,
@@ -6,9 +7,15 @@ export function errorHandler(
     res:Response,
     next:NextFunction
 ) {
+    if (err instanceof AppError) {
+        res.status(err.statusCode).json({
+            message:"Agent not found"
+        });
+    }
+
     console.error(err);
 
-    res.status(500).json({
+    return res.status(500).json({
         message:"Internal Server Error"
     });
 }
