@@ -1,0 +1,530 @@
+# AI Backend Engineering Roadmap
+
+## Objective
+
+Become capable of designing, implementing, securing, deploying and maintaining production backend systems.
+
+The primary objective is not to learn frameworks. The objective is to become a backend engineer capable of building systems from scratch.
+
+Every topic should contribute directly toward this goal.
+
+The flagship project ("Boss") will be the primary learning vehicle.
+
+---
+
+# Phase 0 — Completed Foundation
+
+## TypeScript
+
+Topics completed:
+
+- Types
+- Type inference
+- Interfaces
+- Type aliases
+- Functions
+- Arrays
+- Union types
+- Type narrowing
+- Generics
+- Generic constraints
+- Modules
+- readonly
+- Type assertions
+- Utility types
+- Promise
+- async / await
+- Error handling
+
+Goal achieved:
+
+Comfortably read and write backend TypeScript.
+
+---
+
+## Node.js Fundamentals
+
+Topics completed:
+
+- What Node.js is
+- V8
+- Runtime vs language
+- Browser vs Node
+- Event Loop
+- Async I/O
+- Why Node is single threaded
+- CPU-bound vs I/O-bound work
+- Timers
+- Modules
+- Module resolution
+- npm
+- Packages
+- package.json
+- HTTP request lifecycle
+- What Express is
+
+Goal achieved:
+
+Understand how backend JavaScript actually executes.
+
+---
+
+# Phase 1 — Express
+
+Goal
+
+Build the first HTTP server.
+
+Topics
+
+- Express
+- Routing
+- Middleware
+- Request lifecycle
+- Response lifecycle
+- Request parsing
+- JSON middleware
+- Error middleware
+- Project structure
+- Environment variables
+
+Deliverable
+
+Boss backend skeleton.
+
+Repository
+
+boss/
+
+Expected structure
+
+src/
+    index.ts
+    app.ts
+    routes/
+    controllers/
+    services/
+    middleware/
+    utils/
+
+Milestone
+
+Able to build REST APIs without tutorials.
+
+---
+
+# Phase 2 — Core Backend
+
+Goal
+
+Understand how production backends are organized.
+
+Topics
+
+- Controllers
+- Services
+- Separation of concerns
+- Validation
+- Error handling
+- Logging
+- Configuration
+- DTOs
+- API design
+
+Boss additions
+
+Health endpoint
+
+Conversation endpoints
+
+Basic CRUD
+
+Clean folder architecture
+
+Concept completion after implementation
+
+REST principles
+
+Idempotency
+
+HTTP status codes
+
+Resource design
+
+---
+
+# Phase 3 — Database
+
+Goal
+
+Persist data correctly.
+
+Implementation
+
+PostgreSQL
+
+Prisma
+
+Topics
+
+Database normalization
+
+Indexes
+
+Transactions
+
+Constraints
+
+Relationships
+
+Query optimization
+
+Migrations
+
+Concept completion
+
+PostgreSQL vs MySQL
+
+SQL vs NoSQL
+
+MongoDB
+
+CAP theorem
+
+When each approach is appropriate
+
+Boss additions
+
+Persistent users
+
+Persistent conversations
+
+Persistent messages
+
+---
+
+# Phase 4 — Authentication
+
+Goal
+
+Secure users.
+
+Implementation
+
+Password hashing
+
+JWT
+
+Refresh tokens
+
+Protected routes
+
+Topics
+
+Authentication
+
+Authorization
+
+Password storage
+
+Token lifecycle
+
+Middleware
+
+RBAC
+
+Concept completion
+
+Sessions
+
+Cookies
+
+OAuth
+
+CSRF
+
+XSS
+
+Token theft
+
+When each authentication strategy is preferable
+
+Boss additions
+
+Signup
+
+Login
+
+Logout
+
+Current user endpoint
+
+Protected APIs
+
+---
+
+# Phase 5 — AI Backend
+
+Goal
+
+Transform Boss into an AI platform.
+
+Implementation
+
+LLM providers
+
+Conversation history
+
+Streaming
+
+Context management
+
+Topics
+
+Prompt management
+
+Provider abstraction
+
+Streaming responses
+
+Conversation memory
+
+Rate limiting
+
+Usage tracking
+
+Concept completion
+
+Provider comparison
+
+Cost optimization
+
+Token accounting
+
+Caching strategies
+
+Boss additions
+
+Chat endpoint
+
+Conversation storage
+
+Streaming responses
+
+Multiple providers
+
+---
+
+# Phase 6 — Infrastructure
+
+Topics
+
+Redis
+
+Caching
+
+Queues
+
+Background jobs
+
+BullMQ
+
+File storage
+
+Email
+
+Rate limiting
+
+Concept completion
+
+Redis internals
+
+BullMQ vs RabbitMQ
+
+Kafka
+
+SQS
+
+Scaling workers
+
+Boss additions
+
+Caching
+
+Job processing
+
+Async tasks
+
+Notifications
+
+---
+
+# Phase 7 — Security
+
+Topics
+
+Validation
+
+Input sanitization
+
+Rate limiting
+
+Secrets
+
+Security headers
+
+OWASP Top 10
+
+Concept completion
+
+Threat modeling
+
+Attack surfaces
+
+Secure defaults
+
+Boss additions
+
+Production-grade security
+
+---
+
+# Phase 8 — Deployment
+
+Topics
+
+Docker
+
+CI/CD
+
+Monitoring
+
+Logging
+
+Health checks
+
+Environment management
+
+Reverse proxy
+
+HTTPS
+
+Deployment
+
+Boss additions
+
+Production deployment
+
+---
+
+# Phase 9 — Frontend
+
+Only after backend is mature.
+
+Implementation
+
+Next.js
+
+Purpose
+
+Consume the Boss API.
+
+Topics
+
+React
+
+Next.js
+
+Authentication integration
+
+Dashboard
+
+Streaming UI
+
+---
+
+# Learning Method
+
+Every feature follows the same cycle.
+
+1. Identify the capability required.
+2. Implement one production-quality solution.
+3. Understand why it works.
+4. Study competing approaches.
+5. Continue building.
+
+Example
+
+Need authentication
+
+↓
+
+Implement JWT
+
+↓
+
+Study sessions
+
+↓
+
+Study cookies
+
+↓
+
+Study OAuth
+
+↓
+
+Continue
+
+Not every technology is implemented immediately, but every major concept is understood.
+
+---
+
+# Boss Philosophy
+
+Boss is not a tutorial project.
+
+Boss is the portfolio project.
+
+Every new concept extends Boss.
+
+Nothing is thrown away.
+
+---
+
+# End Goal
+
+By the end of the roadmap, Boss should include:
+
+Authentication
+
+Authorization
+
+REST API
+
+PostgreSQL
+
+Redis
+
+Background jobs
+
+Streaming AI
+
+Conversation memory
+
+Rate limiting
+
+Caching
+
+Monitoring
+
+Docker
+
+Production deployment
+
+Next.js frontend
+
+Production architecture
+
+The repository itself should demonstrate production backend engineering.
