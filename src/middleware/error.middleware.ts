@@ -8,7 +8,7 @@ export function errorHandler(
     next:NextFunction
 ) {
     if (err instanceof AppError) {
-        res.status(err.statusCode).json({
+        return res.status(err.statusCode).json({
             message:"Agent not found"
         });
     }
