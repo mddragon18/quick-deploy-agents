@@ -33,7 +33,7 @@ rule below.
   MY checkpoint work, not reviewing external code.
 
 ## Session start
-- Read progress/progress.md and roadmap.md first.
+- Read progress.md and roadmap first.
 - Tell me what phase I'm in and what today's target should be, based on 
   those files — don't ask me to re-explain where I left off.
 
