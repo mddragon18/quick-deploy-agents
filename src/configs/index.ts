@@ -1,5 +1,5 @@
 import { config } from "dotenv";
-
+config();
 const vars : string[] = [];
 
 export function validateRequired() {
