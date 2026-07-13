@@ -8,7 +8,9 @@ export function validateRequired() {
     for(let i:number=0; i<vars.length; i++) {
         let value = vars[i];
         if(envKeys.includes(vars[i])){
-            if(typeof envKeys[value])
+            if(typeof envKeys[value] === "undefined") {
+                throw new Error(`${value} is not set in the environment`)
+            }
         }
         else {
             throw new Error(`${vars[i]} is not in env.`)
