@@ -1,19 +1,18 @@
 import { config } from "dotenv";
 config();
-const vars : string[] = [];
-
+const req : string[] = []; //will add when needed
+let appConfig = {};
 export function validateRequired() {
-    const envKeys = Object.keys(process.env);
-    const envPairs = Object.entries(process.env);
-    for(let i:number=0; i<vars.length; i++) {
-        let value = vars[i];
-        if(envKeys.includes(vars[i])){
-            if(typeof envPairs[value] === "undefined") {
-                throw new Error(`${value} is not set in the environment`)
-            }
+    for(let i=0; i<req.length; i++) {
+        if (req[i] in process.env) {
+            if(typeof process.env[req[i]] === "undefined")
+                throw new Error(`${req[i]} is not set`);
         }
         else {
-            throw new Error(`${vars[i]} is not in env.`)
+            throw new Error(`${req[i]} is not in env`);
         }
     }
 }
+
+export const PORT = Number(process.env.PORT) || 3000;
+

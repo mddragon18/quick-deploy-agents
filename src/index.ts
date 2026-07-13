@@ -1,7 +1,7 @@
 import app from "./app";
+import { validateRequired,PORT } from "./configs";
 
-const PORT=3000;
-
+validateRequired();
 app.listen(PORT,()=>{
     console.log(`Server Started at https://localhost:${PORT}`);
 })
