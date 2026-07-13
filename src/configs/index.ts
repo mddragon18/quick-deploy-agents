@@ -1,7 +1,6 @@
 import { config } from "dotenv";
 config();
 const req : string[] = []; //will add when needed
-let appConfig = {};
 export function validateRequired() {
     for(let i=0; i<req.length; i++) {
         if (req[i] in process.env) {
