@@ -1,0 +1,593 @@
+# AI Backend Engineering Roadmap
+
+## Objective
+
+Become capable of designing, implementing, securing, deploying and maintaining production backend systems.
+
+The primary objective is not to learn frameworks. The objective is to become a backend engineer capable of building systems from scratch.
+
+Every topic should contribute directly toward this goal.
+
+Quick Deploy Agents is the flagship learning and portfolio project. The
+architecture document is a north star, not a mandate to build every distributed
+system component before the preceding phase is understood.
+
+## Checkpoint and completion standard
+
+Each phase deliverable is a checkpoint. Complete a checkpoint only when you
+can predict its behavior, build or modify a small version without a tutorial,
+verify a success and failure case, explain one alternative with its tradeoff,
+and pass a short oral quiz.
+
+Testing, validation, secret handling, and threat awareness are continuous
+practices. Their dedicated later phases deepen them; they are not permission to
+ignore them earlier.
+
+---
+
+# Phase 0 — Completed Foundation
+
+## TypeScript
+
+Topics completed:
+
+- Types
+- Type inference
+- Interfaces
+- Type aliases
+- Functions
+- Arrays
+- Union types
+- Type narrowing
+- Generics
+- Generic constraints
+- Modules
+- readonly
+- Type assertions
+- Utility types
+- Promise
+- async / await
+- Error handling
+
+Goal achieved:
+
+Comfortably read and write backend TypeScript.
+
+---
+
+## Node.js Fundamentals
+
+Topics completed:
+
+- What Node.js is
+- V8
+- Runtime vs language
+- Browser vs Node
+- Event Loop
+- Async I/O
+- Why Node is single threaded
+- CPU-bound vs I/O-bound work
+- Timers
+- Modules
+- Module resolution
+- npm
+- Packages
+- package.json
+- HTTP request lifecycle
+- What Express is
+
+Goal achieved:
+
+Understand how backend JavaScript actually executes.
+
+---
+
+# Phase 1 — Express
+
+Goal
+
+Build the first HTTP server.
+
+Topics
+
+- Express
+- Routing
+- Middleware
+- Request lifecycle
+- Response lifecycle
+- Request parsing
+- JSON middleware
+- Error middleware
+- Project structure
+- Environment variables
+
+Checkpoint deliverable
+
+Quick Deploy Agents backend skeleton.
+
+Repository
+
+quick-deploy-agents/
+
+Expected structure
+
+src/
+    index.ts
+    app.ts
+    routes/
+    controllers/
+    services/
+    middleware/
+    utils/
+
+Milestone
+
+Able to build REST APIs without tutorials.
+
+Verification habits
+
+- Trace the request lifecycle before running it.
+- Manually verify a success response and an intentional failure response.
+- Record the expected HTTP status and response shape before testing.
+
+---
+
+# Phase 2 — Core Backend
+
+Goal
+
+Understand how production backends are organized.
+
+Topics
+
+- Controllers
+- Services
+- Separation of concerns
+- Validation
+- Error handling
+- Logging
+- Configuration
+- DTOs
+- API design
+- HTTP methods, headers, status codes, and resource design
+- Automated testing fundamentals
+- Test thinking: arrange, act, assert; happy paths and failure paths
+- Validation and safe error semantics
+
+Quick Deploy Agents additions
+
+Health endpoint
+
+Conversation endpoints
+
+Basic CRUD
+
+Clean folder architecture
+
+Concept completion after implementation
+
+REST principles
+
+Idempotency
+
+HTTP status codes
+
+Resource design
+
+Checkpoint deliverable
+
+Tested CRUD and conversation endpoints with validation, clear error behavior,
+and a documented API contract.
+
+---
+
+# Phase 3 — Database
+
+Goal
+
+Persist data correctly.
+
+Implementation
+
+PostgreSQL
+
+Prisma
+
+Topics
+
+Database normalization
+
+SQL fundamentals before ORM abstraction
+
+Indexes
+
+Transactions
+
+Constraints
+
+Relationships
+
+Query optimization
+
+Migrations
+
+Concept completion
+
+PostgreSQL vs MySQL
+
+SQL vs NoSQL
+
+MongoDB
+
+CAP theorem
+
+When each approach is appropriate
+
+Quick Deploy Agents additions
+
+Persistent users
+
+Persistent conversations
+
+Persistent messages
+
+Checkpoint deliverable
+
+Persistent, migrated data model with constraints and verified failure cases.
+
+---
+
+# Phase 4 — Authentication
+
+Goal
+
+Secure users.
+
+Implementation
+
+Password hashing
+
+JWT
+
+Refresh tokens
+
+Protected routes
+
+Topics
+
+Authentication
+
+Authorization
+
+Password storage
+
+Token lifecycle
+
+Middleware
+
+RBAC
+
+Concept completion
+
+Sessions
+
+Cookies
+
+OAuth
+
+CSRF
+
+XSS
+
+Token theft
+
+When each authentication strategy is preferable
+
+Quick Deploy Agents additions
+
+Signup
+
+Login
+
+Logout
+
+Current user endpoint
+
+Protected APIs
+
+Checkpoint deliverable
+
+User identity and authorization behavior whose token lifecycle and failure
+cases can be explained without relying on copied code.
+
+---
+
+# Phase 5 — AI Backend
+
+Goal
+
+Transform Quick Deploy Agents into an AI platform.
+
+Implementation
+
+LLM providers
+
+Conversation history
+
+Streaming
+
+Context management
+
+Topics
+
+Prompt management
+
+Provider abstraction
+
+Streaming responses
+
+Conversation memory
+
+Rate limiting
+
+Usage tracking
+
+Concept completion
+
+Provider comparison
+
+Cost optimization
+
+Token accounting
+
+Caching strategies
+
+Quick Deploy Agents additions
+
+Chat endpoint
+
+Conversation storage
+
+Streaming responses
+
+Multiple providers
+
+Checkpoint deliverable
+
+Provider-agnostic chat flow with persisted conversation context, streaming,
+and explicit usage boundaries.
+
+---
+
+# Phase 6 — Infrastructure
+
+Topics
+
+Redis
+
+Caching
+
+Queues
+
+Background jobs
+
+BullMQ
+
+File storage
+
+Email
+
+Rate limiting
+
+Concept completion
+
+Redis internals
+
+BullMQ vs RabbitMQ
+
+Kafka
+
+SQS
+
+Scaling workers
+
+Quick Deploy Agents additions
+
+Caching
+
+Job processing
+
+Async tasks
+
+Notifications
+
+Checkpoint deliverable
+
+One asynchronous workflow with observable state transitions and safe retry
+behavior.
+
+---
+
+# Phase 7 — Security
+
+Topics
+
+Validation
+
+Input sanitization
+
+Rate limiting
+
+Secrets
+
+Security headers
+
+OWASP Top 10
+
+Concept completion
+
+Threat modeling
+
+Attack surfaces
+
+Secure defaults
+
+Testing of security-relevant failure paths
+
+Quick Deploy Agents additions
+
+Production-grade security
+
+Checkpoint deliverable
+
+Documented threat model and hardened application with verified controls for
+its relevant attack surfaces.
+
+---
+
+# Phase 8 — Deployment
+
+Topics
+
+Docker
+
+CI/CD
+
+Monitoring
+
+Logging
+
+Health checks
+
+Environment management
+
+Reverse proxy
+
+HTTPS
+
+Deployment
+
+Quick Deploy Agents additions
+
+Production deployment
+
+Checkpoint deliverable
+
+Reproducible deployment with health checks, structured logs, environment
+management, and a rollback plan.
+
+---
+
+# Phase 9 — Frontend
+
+Only after backend is mature.
+
+Implementation
+
+Next.js
+
+Purpose
+
+Consume the Quick Deploy Agents API.
+
+Topics
+
+React
+
+Next.js
+
+Authentication integration
+
+Dashboard
+
+Streaming UI
+
+---
+
+# Learning Method
+
+Every feature follows the same cycle.
+
+1. Identify the capability required.
+2. Predict the behavior and failure modes.
+3. Implement one production-quality solution yourself.
+4. Verify success and failure cases.
+5. Explain why it works.
+6. Study competing approaches and their tradeoffs.
+7. Pass a short quiz, then continue building.
+
+Example
+
+Need authentication
+
+↓
+
+Implement JWT
+
+↓
+
+Study sessions
+
+↓
+
+Study cookies
+
+↓
+
+Study OAuth
+
+↓
+
+Continue
+
+Not every technology is implemented immediately, but every major concept is understood.
+
+---
+
+# Quick Deploy Agents Philosophy
+
+Quick Deploy Agents is not a tutorial project.
+
+Quick Deploy Agents is the portfolio project.
+
+Every new concept extends Quick Deploy Agents.
+
+Nothing is thrown away.
+
+---
+
+# End Goal
+
+By the end of the roadmap, Quick Deploy Agents should include:
+
+Authentication
+
+Authorization
+
+REST API
+
+PostgreSQL
+
+Redis
+
+Background jobs
+
+Streaming AI
+
+Conversation memory
+
+Rate limiting
+
+Caching
+
+Monitoring
+
+Docker
+
+Production deployment
+
+Next.js frontend
+
+Production architecture
+
+The repository itself should demonstrate production backend engineering.
