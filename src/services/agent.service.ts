@@ -43,7 +43,7 @@ export function updateAgent(id:string, updateAgentDto : UpdateAgentDto) : Agent 
 export function deleteAgent(id: string) : void {
     const delIndex = agents.findIndex(agent => agent.id === id);
     if(delIndex === -1) {
-        throw new NotFoundError("Agent not Found");
+        throw new NotFoundError("Agent not found");
     }
     agents.splice(delIndex,1);
 }
