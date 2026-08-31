@@ -1,48 +1,70 @@
 import { NotFoundError } from "../errors/NotFoundError";
 import { Conversation } from "../types/conversation";
-import { Message } from "../types/message";
+import { Message, CreateMessageDto } from "../types/message";
 import { getAgentById } from "./agent.service";
+import {pool} from "../db/index";
 
 
-const conversations : Conversation[] = [];
-let nextId = 1;
-
-
-export function getConversationById(id:string) : Conversation {
-    const conversation : Conversation | undefined = conversations.find(x => x.id===id);
-    if(typeof conversation === "undefined") 
-        throw new NotFoundError("Conversation not found");
-    return conversation;
+export async function getConversationById(id:string) : Promise<Conversation> {
+    const {rows} = await pool.query(`
+        SELECT id,agent_id,created_at AS "createdAt",updated_at AS "updatedAt" from conversations where id=$1;
+        `, [id]);
+    if(!rows.length) throw new NotFoundError("Conversation not found");
+    return rows[0];
 }
 
-export function getAllMessagesById(id:string) : Message[] {
-    const conversation = getConversationById(id);
-    return conversation.messages;
+export async function getAllMessagesById(id:string) : Promise<Message[]> {
+    await getConversationById(id);
+
+    const {rows} = await pool.query(`
+        SELECT id,conversation_id as "conversationId",sender,content,created_at AS "createdAt",updated_at AS "updatedAt" from messages where conversation_id=$1 order by created_at ASC;
+        `, [id]);
+
+    return rows;
+
 }
 
-export function createConversation(agentId:string , message : Message) : Conversation {
-    getAgentById(agentId);
+export async function createConversation(agentId:string , message : CreateMessageDto) : Promise<Conversation> {
+    await getAgentById(agentId);
 
-    let conversation : Conversation = {
-        id : nextId.toString(),
-        agent_id:agentId,
-        messages : [message]
+    const client = await pool.connect();
+
+    try {
+        await client.query("BEGIN;");
+
+        const newConv = await client.query(`
+            INSERT INTO conversations (agent_id) values($1)
+            returning id,agent_id,created_at AS "createdAt",updated_at AS "updatedAt";
+            `,[agentId]);
+        
+        await client.query(`
+            INSERT INTO messages (conversation_id,sender,content) values($1,$2,$3);
+            `, [newConv.rows[0].id, message.from, message.content]);
+
+        await client.query("COMMIT;");
+        return newConv.rows[0];
     }
-
-    conversations.push(conversation);
-    nextId++;
-    return conversation;
-}
-
-export function addMessageById(id:string,message:Message) : void {
-    const conversation : Conversation = getConversationById(id);
-    conversation.messages.push(message);
-}
-
-export function deleteConversationById(id:string) : void {
-    let index = conversations.findIndex(x => x.id===id);
-    if(index === -1) {
-        throw new NotFoundError("Conversation not found");
+    catch(error) {
+        await client.query("ROLLBACK;")
+        console.log(error);
+        throw new Error("Something failed"); //custom error later
     }
-    conversations.splice(index,1);
+    finally {
+        client.release();
+    }
+    
+}
+
+export async function addMessageById(id:string,message:CreateMessageDto) : Promise<void> {
+    const conversation = await getConversationById(id);
+    await pool.query(`
+        INSERT INTO messages (conversation_id,sender,content) values($1,$2,$3);
+        `, [conversation.id,message.from,message.content])
+}
+
+export async function deleteConversationById(id:string) : Promise<void> {
+    await getConversationById(id);
+    await pool.query(`
+        DELETE from conversations where id=$1;
+        `,[id]);
 }

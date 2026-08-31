@@ -1,7 +1,7 @@
 import {z} from "zod";
 
 export const AgentSchema = z.object({
-    id : z.string().readonly(),
+    id : z.uuid().readonly(),
     name : z.string().min(2).max(25),
     description : z.string().optional(),
     createdAt : z.date().readonly(),

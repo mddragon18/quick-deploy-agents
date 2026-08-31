@@ -1,225 +1,216 @@
 # API Contract
 
-## `/agents` Endpoints
+This document describes the current HTTP API. Request validation is performed
+with Zod. Invalid request bodies return `400 Bad Request` with the Zod error
+formatted by `zod-validation-error`.
 
-### `Agent` Type
+Unknown fields in object request bodies are stripped before the request reaches
+the controller.
 
-```typescript
-export interface Agent {
-    readonly id: string;
-    name: string;
-    description?: string;
-    readonly createdAt: Date;   // Dates are returned as a string of form "2026-08-18T11:53:30.829Z"
-    updatedAt: Date;
+## Common response rules
+
+- Dates are serialized as ISO-8601 strings in JSON responses.
+- Unknown failures return `500` with `{ "message": "Internal Server Error" }`.
+- Missing resources return `404` with `{ "message": string }`.
+- Validation failures return `400` in this shape:
+
+```json
+{
+  "error": {
+    "name": "ZodValidationError",
+    "details": [
+      {
+        "path": ["field"],
+        "message": "..."
+      }
+    ]
+  }
 }
 ```
 
----
+The `details` entries are produced by Zod and may contain additional
+diagnostic properties such as `code`, `expected`, `received`, `minimum`, or
+`origin`.
+
+## Health
+
+### `GET /health/`
+
+Returns:
+
+```json
+{
+  "status": "ok",
+  "uptime": 12.34
+}
+```
+
+**Status:** `200`
+
+## Agents
+
+### Agent response
+
+```json
+{
+  "id": "1",
+  "name": "Agent One",
+  "description": "",
+  "createdAt": "2026-08-28T07:25:45.913Z",
+  "updatedAt": "2026-08-28T07:25:45.913Z"
+}
+```
+
+`name` is a string from 2 through 25 characters. `description` is a string
+when supplied and is returned as an empty string when omitted during creation.
 
 ### `GET /agents/`
 
-Returns a JSON response whose contents is a collection of objects of type `Agent`.
+Returns an array of agent objects.
 
-**Status Code:** `200`
-
----
+**Status:** `200`
 
 ### `GET /agents/:id`
 
-Returns a JSON response whose body is an object of type `Agent` (as described before).
+Returns one agent object.
 
-**Status Code:** `200`
-
-If the requested agent does not exist, the API throws an error whose JSON body has the shape:
+If the agent does not exist:
 
 ```json
 {
-    "message": "Agent not found"
+  "message": "Agent not found"
 }
 ```
 
-**Error Status Code:** `404`
+**Success status:** `200`
 
----
+**Missing-resource status:** `404`
 
 ### `POST /agents/`
 
-A POST request used to create an agent of type `Agent`.
-
-**Expected JSON body:**
+Request body:
 
 ```json
 {
-    "name": "agent_name",
-    "description": ""
+  "name": "Agent One",
+  "description": "Optional description"
 }
 ```
 
-- `name` — required
-- `description` — optional
+`name` is required. `description` is optional. Additional fields are ignored.
 
-Any additional fields will be ignored.
+Returns the created agent object.
 
-If the `name` field is missing, an error with the following structure is returned:
+**Success status:** `201`
 
-```json
-{
-    "message": "The request is missing one or more required fields.",
-    "missing_fields": ["email"]
-}
-```
-
-**Error Status Code:** `422 Unprocessable Entity`
-
-Returns a JSON whose body has an object of type `Agent`.
-
-**Status Code:** `201`
-
----
+**Validation status:** `400`
 
 ### `PATCH /agents/:id`
 
-Used to update an agent, given an id of the agent.
-
-**Expected JSON body:**
+Request body may contain either or both mutable fields:
 
 ```json
 {
-    "name": "updated_name",
-    "description": "updated_description"
+  "name": "Updated Agent",
+  "description": "Updated description"
 }
 ```
 
-To update only one of the values, leave out the other field; extra fields are ignored.
+Both fields may be omitted; an empty object leaves the agent values unchanged
+apart from the service updating `updatedAt`. Additional fields are ignored.
 
-Returns a JSON whose body has an object of type `Agent`.
+Returns the updated agent object.
 
-**Status Code:** `200`
+**Success status:** `200`
 
-If the agent does not exist:
+**Validation status:** `400`
 
-```json
-{
-    "message": "Agent not found"
-}
-```
-
-**Error Status Code:** `404`
-
-If both fields are omitted: returns the full `Agent` without any modifications.
-
----
+**Missing-resource status:** `404`
 
 ### `DELETE /agents/:id`
 
-Deletes the agent whose id is specified.
+Deletes the specified agent and returns no response body.
 
-Returns nothing in the body.
+**Success status:** `204`
 
-**Status Code:** `204`
+**Missing-resource status:** `404`
 
-If the agent does not exist:
+## Conversations
 
-```json
-{
-    "message": "Agent not found"
-}
-```
-
-**Error Status Code:** `404`
-
----
-
-## Planned `/conversation` Endpoints (Shallow Routing)
-
-### What is a conversation?
-
-A conversation is a collection of messages between the user and the agent.
-
-**Structure of a message:**
-
-```
-{
-    from: "user" | "agent",
-    content: string
-}
-```
-
-Any additional content will be added when AI agents are incorporated.
-
-**Structure of a conversation:**
-
-```
-{
-    id,
-    agent_id,
-    messages: [ /* message objects */ ]
-}
-```
-
----
-
-### `POST /agents/:id/conversation`
-
-Creates a new conversation.
-
-Accepts a message from the user in the body of the POST. Returns the object of type `Conversation` to the client side, which will contain the id of the conversation.
-
-The request should accept only the following JSON payload:
+### Conversation response
 
 ```json
 {
+  "id": "1",
+  "agent_id": "1",
+  "messages": [
+    {
+      "from": "user",
+      "content": "Hello"
+    }
+  ]
+}
+```
+
+### Message request
+
+```json
+{
+  "from": "user",
+  "content": "Hello"
+}
+```
+
+`from` must be either `"user"` or `"agent"`. `content` must be a string
+containing at least one character. Additional fields are ignored.
+
+### `POST /agents/:agent_id/conversation`
+
+Creates a conversation for the specified agent with the supplied initial
+message. The request is validated with `MessageSchema`.
+
+Returns the created conversation object.
+
+**Success status:** `201`
+
+**Validation status:** `400`
+
+**Missing-agent status:** `404`
+
+### `GET /conversations/:id`
+
+Returns the conversation's messages as an array:
+
+```json
+[
+  {
     "from": "user",
-    "content": "Content of the message to agent"
-}
+    "content": "Hello"
+  }
+]
 ```
 
-**Status Code:** `201` — the conversation object wrapped in JSON.
+**Success status:** `200`
 
-**Errors:**
-
-- Required fields not present - Zod handles
-- Agent id doesn't exist — `404`, NotFoundError (agent not found)
-- Any other error — `500`
-
----
-
-### `GET /conversations/:id/messages`
-
-Fetches all the messages in the conversation. (Auth part later.)
-
-**Response shape:**
-
-```
-{
-    "messages": [
-        {
-            "from": "user" | "agent",
-            "content": "..."
-        }
-    ]
-}
-```
-
-**Errors:**
-
-- No such conversation exists — `404`, NotFoundError
-
----
+**Missing-conversation status:** `404`
 
 ### `POST /conversations/:id/messages`
 
-Adds a new message to the conversation, either from the agent or from the user.
+Adds a message to the specified conversation. The request is validated with
+`MessageSchema`.
 
+The endpoint returns no response body.
 
-**Errors:**
+**Success status:** `200`
 
-- Conversation must exist, otherwise — `404`, NotFoundError
-- Message is empty or missing required fields — `422`, MalformedRequest error
-- Content is of the wrong type — WrongTypeError (extends ValidationError, which extends AppError)
+**Validation status:** `400`
 
----
+**Missing-conversation status:** `404`
 
 ### `DELETE /conversations/:id`
 
-Deletes a conversation.
+Deletes the specified conversation and returns no response body.
+
+**Success status:** `204`
+
+**Missing-conversation status:** `404`

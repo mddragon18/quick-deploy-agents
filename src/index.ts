@@ -1,7 +1,7 @@
 import app from "./app";
-import { validateRequired,PORT } from "./configs";
+import {env} from "./configs/index"
 
-validateRequired();
-app.listen(PORT,()=>{
-    console.log(`Server Started at https://localhost:${PORT}`);
+
+app.listen(env.PORT,()=>{
+    console.log(`Server Started at https://localhost:${env.PORT}`);
 })

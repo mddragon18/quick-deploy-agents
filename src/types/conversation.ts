@@ -1,10 +1,10 @@
 import {z} from "zod";
-import { MessageSchema } from "./message";
 
 export const ConversationSchema = z.object({
-    id : z.string(),
-    agent_id : z.string(),
-    messages : z.array(MessageSchema)
+    id : z.uuid().readonly(),
+    agentId : z.string(),
+    createdAt : z.date().readonly(),
+    updatedAt : z.date()
 })
 
 export type Conversation = z.infer<typeof ConversationSchema>

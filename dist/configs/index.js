@@ -1,20 +1,12 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.PORT = void 0;
-exports.validateRequired = validateRequired;
+exports.env = void 0;
 const dotenv_1 = require("dotenv");
+const zod_1 = require("zod");
 (0, dotenv_1.config)();
-const req = []; //will add when needed
-function validateRequired() {
-    for (let i = 0; i < req.length; i++) {
-        if (req[i] in process.env) {
-            if (typeof process.env[req[i]] === "undefined")
-                throw new Error(`${req[i]} is not set`);
-        }
-        else {
-            throw new Error(`${req[i]} is not in env`);
-        }
-    }
-}
-exports.PORT = Number(process.env.PORT) || 3000;
+const envSchema = zod_1.z.object({
+    PORT: zod_1.z.coerce.number().int().positive(),
+    DB_URL: zod_1.z.url()
+});
+exports.env = envSchema.parse(process.env);
 //# sourceMappingURL=index.js.map

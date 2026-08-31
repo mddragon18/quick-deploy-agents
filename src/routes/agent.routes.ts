@@ -2,7 +2,7 @@ import { getAllAgentsHandler,getAgentByIdHandler,deleteAgentHandler,createAgentH
  } from "../controllers/agent.controller";
 import {Router} from "express";
 import { CreateAgentSchema,UpdateAgentSchema } from "../types/agent";
-import { MessageSchema } from "../types/message";
+import { CreateMessageSchema } from "../types/message";
 import { validateBody } from "../middleware/validate.middleware";
 import { createConversationHandler } from "../controllers/conversation.controller";
 
@@ -15,7 +15,7 @@ router.get("/:id",getAgentByIdHandler);
 router.patch("/:id", validateBody(UpdateAgentSchema) ,updateAgentHandler)
 router.delete("/:id",deleteAgentHandler);
 
-router.post("/:agent_id/conversation", validateBody(MessageSchema) ,createConversationHandler)
+router.post("/:agentId/conversation", validateBody(CreateMessageSchema) ,createConversationHandler)
 
 export default router;
 

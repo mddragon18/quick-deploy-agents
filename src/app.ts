@@ -10,6 +10,15 @@ const app = express();
 
 app.use(logger);
 app.use(express.json())
+app.use(express.json());
+
+// Catch malformed JSON syntax errors thrown by express.json()
+app.use((err: any, req: any, res: any, next: any) => {
+  if (err instanceof SyntaxError && 'body' in err) {
+    return res.status(400).json({ error: "Malformed JSON payload in request body" });
+  }
+  next(err);
+});
 
 
 //handlers
