@@ -247,9 +247,9 @@ Implementation
 
 Password hashing
 
-JWT
+Server-side sessions
 
-Refresh tokens
+PostgreSQL session store
 
 Protected routes
 
@@ -261,7 +261,7 @@ Authorization
 
 Password storage
 
-Token lifecycle
+Session lifecycle
 
 Middleware
 
@@ -283,6 +283,12 @@ Token theft
 
 When each authentication strategy is preferable
 
+Implementation decision
+
+Quick Deploy Agents uses `express-session` with PostgreSQL-backed sessions for
+the current implementation. JWTs and refresh tokens remain comparison topics,
+not implementation requirements for this phase.
+
 Quick Deploy Agents additions
 
 Signup
@@ -294,6 +300,10 @@ Logout
 Current user endpoint
 
 Protected APIs
+
+Resource ownership and authorization
+
+Session expiration and secure cookie configuration
 
 Checkpoint deliverable
 
@@ -311,6 +321,8 @@ Transform Quick Deploy Agents into an AI platform.
 Implementation
 
 LLM providers
+
+OpenAI, Anthropic, Gemini, Groq, OpenRouter, and Ollama integrations
 
 Conversation history
 
@@ -351,6 +363,8 @@ Conversation storage
 Streaming responses
 
 Multiple providers
+
+User-owned provider credentials
 
 Checkpoint deliverable
 
@@ -522,11 +536,11 @@ Need authentication
 
 ↓
 
-Implement JWT
+Implement session-based authentication
 
 ↓
 
-Study sessions
+Protect routes and enforce ownership
 
 ↓
 

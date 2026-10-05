@@ -83,7 +83,7 @@ The Execution Plane runs isolated agent workloads.
 # Design Principles
 
 * API-first architecture
-* Stateless backend
+* Stateful authentication with stateless request handlers
 * Resource-oriented REST API
 * Separation of concerns
 * Provider agnostic
@@ -102,7 +102,8 @@ Responsibilities
 
 * Signup
 * Login
-* Refresh Tokens
+* Logout
+* Current User
 * User Authentication
 * Authorization
 
@@ -110,7 +111,6 @@ Owns
 
 * Users
 * Sessions
-* JWTs
 
 ---
 
@@ -505,7 +505,11 @@ DeploymentFailedError
 
 # Security
 
-JWT Authentication
+Session Authentication
+
+Secure Cookies
+
+CSRF Protection
 
 Encrypted API Keys
 
@@ -529,7 +533,7 @@ Audit Logging
 
 API-first
 
-Stateless REST services
+REST services with PostgreSQL-backed authentication sessions
 
 Horizontal scalability
 
@@ -574,7 +578,8 @@ Container Runtime
 
 Authentication
 
-* JWT
+* Express Session
+* PostgreSQL session store
 
 Storage
 
@@ -616,12 +621,11 @@ Future
 ## Milestone 3
 
 * Authentication
-* Provider management
-
----
 
 ## Milestone 4
 
+* AI provider management
+* Provider abstraction
 * Agent versioning
 * Deployment records
 

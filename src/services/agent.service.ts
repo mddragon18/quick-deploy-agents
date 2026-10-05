@@ -10,7 +10,7 @@ export async function createAgent(createAgentDto : CreateAgentDto) : Promise<Age
     const {rows} = await pool.query(
         `INSERT INTO agents (name,description) values($1,$2)
         RETURNING id , name , description , created_at AS "createdAt" , updated_at AS "updatedAt"`,
-        [createAgentDto.name,createAgentDto.description || null] 
+        [createAgentDto.name,createAgentDto.description || ""] 
     );
     
     return rows[0];
@@ -18,14 +18,14 @@ export async function createAgent(createAgentDto : CreateAgentDto) : Promise<Age
 
 export async function getAllAgents() : Promise<Agent[]> {
     const {rows} = await pool.query(
-        `SELECT * FROM agents`
+        `SELECT id,name,description,created_at AS "createdAt",updated_at AS "updatedAt" FROM agents`
     );
     return rows;
 }
 
 export async function getAgentById(id : string): Promise<Agent> {
     const {rows} = await pool.query(
-        `SELECT * FROM agents where id=$1`,
+        `SELECT id,name,description,created_at AS "createdAt",updated_at AS "updatedAt" FROM agents where id=$1`,
         [id]
     );
     if(!rows.length) throw new NotFoundError("Agent not found");
@@ -34,7 +34,7 @@ export async function getAgentById(id : string): Promise<Agent> {
 }
 
 export async function updateAgent(id:string, updateAgentDto : UpdateAgentDto) : Promise<Agent> {
-    getAgentById(id);
+    await getAgentById(id);
     const setClauses : string[] = [];
     const values : any[] = [];
 
@@ -60,7 +60,7 @@ export async function updateAgent(id:string, updateAgentDto : UpdateAgentDto) : 
 }
 
 export async function deleteAgent(id: string) : Promise<void> {
-    getAgentById(id);
+    await getAgentById(id);
     await pool.query(
         `DELETE from agents where id=$1`,
         [id]

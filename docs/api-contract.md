@@ -142,7 +142,7 @@ Deletes the specified agent and returns no response body.
 ```json
 {
   "id": "1",
-  "agent_id": "1",
+  "agentId": "1",
   "messages": [
     {
       "from": "user",
@@ -164,7 +164,7 @@ Deletes the specified agent and returns no response body.
 `from` must be either `"user"` or `"agent"`. `content` must be a string
 containing at least one character. Additional fields are ignored.
 
-### `POST /agents/:agent_id/conversation`
+### `POST /agents/:agentId/conversation`
 
 Creates a conversation for the specified agent with the supplied initial
 message. The request is validated with `MessageSchema`.

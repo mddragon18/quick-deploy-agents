@@ -13,14 +13,21 @@
   "license": "ISC",
   "type": "commonjs",
   "dependencies": {
+    "argon2": "^0.45.1",
+    "argon2id": "^1.0.1",
+    "connect-pg-simple": "^10.0.0",
     "dotenv": "^17.4.2",
     "express": "^5.2.1",
+    "express-session": "^1.19.0",
     "pg": "^8.23.0",
     "zod": "^4.4.3",
     "zod-validation-error": "^5.0.0"
   },
   "devDependencies": {
+    "@types/argon2": "^0.14.1",
+    "@types/connect-pg-simple": "^7.0.3",
     "@types/express": "^5.0.6",
+    "@types/express-session": "^1.19.0",
     "@types/node": "^26.1.0",
     "@types/pg": "^8.23.1",
     "tsx": "^4.22.5",
