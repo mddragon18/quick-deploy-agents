@@ -4,7 +4,7 @@ progress/progress.md
 progress/memory.md
 progress/qda.excalidraw
 dist
-node_modules/*
+node_modules
 .opencode
 #env
 .env
